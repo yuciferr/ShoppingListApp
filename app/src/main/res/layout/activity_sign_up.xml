@@ -63,21 +63,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name" />
 
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="313dp"
-        android:layout_height="54dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/edit_text"
-        android:ems="10"
-        android:hint="Password"
-        android:inputType="textPersonName"
-        android:paddingStart="15dp"
-        android:textColorHint="@color/sign_in_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email" />
+   <EditText
+       android:id="@+id/password"
+       android:layout_width="313dp"
+       android:layout_height="54dp"
+       android:layout_marginTop="20dp"
+       android:background="@drawable/edit_text"
+       android:ems="10"
+       android:hint="Password"
+       android:inputType="textPassword"
+       android:paddingStart="15dp"
+       android:textColorHint="@color/sign_in_text"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintHorizontal_bias="0.5"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toBottomOf="@+id/email" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/singup"

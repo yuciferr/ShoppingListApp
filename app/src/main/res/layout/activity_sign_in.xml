@@ -95,7 +95,7 @@
         android:background="@drawable/edit_text"
         android:ems="10"
         android:hint="Password"
-        android:inputType="textPersonName"
+        android:inputType="textPassword"
         android:paddingStart="15dp"
         android:paddingEnd="15dp"
         android:textColorHint="@color/sign_in_text"

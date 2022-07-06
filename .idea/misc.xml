@@ -7,10 +7,13 @@
         <entry key="..\:/Users/yusuf/AndroidStudioProjects/ShoppingList/app/src/main/res/drawable/button.xml" value="0.156" />
         <entry key="..\:/Users/yusuf/AndroidStudioProjects/ShoppingList/app/src/main/res/drawable/edit_text.xml" value="0.156" />
         <entry key="..\:/Users/yusuf/AndroidStudioProjects/ShoppingList/app/src/main/res/drawable/ic_launcher_background.xml" value="0.156" />
-        <entry key="..\:/Users/yusuf/AndroidStudioProjects/ShoppingList/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/yusuf/AndroidStudioProjects/ShoppingList/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Users/yusuf/AndroidStudioProjects/ShoppingList/app/src/main/res/layout/activity_sign_in.xml" value="0.264" />
         <entry key="..\:/Users/yusuf/AndroidStudioProjects/ShoppingList/app/src/main/res/layout/activity_sign_up.xml" value="0.264" />
         <entry key="..\:/Users/yusuf/AndroidStudioProjects/ShoppingList/app/src/main/res/layout/activity_splash_screen.xml" value="0.264" />
+        <entry key="..\:/Users/yusuf/AndroidStudioProjects/ShoppingList/app/src/main/res/layout/fragment_archive.xml" value="0.25" />
+        <entry key="..\:/Users/yusuf/AndroidStudioProjects/ShoppingList/app/src/main/res/layout/fragment_lists.xml" value="0.25" />
+        <entry key="..\:/Users/yusuf/AndroidStudioProjects/ShoppingList/app/src/main/res/menu/bottom_bar_menu.xml" value="0.24895833333333334" />
       </map>
     </option>
   </component>

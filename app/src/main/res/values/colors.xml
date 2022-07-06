@@ -11,5 +11,5 @@
     <color name="sign_in_bg">#F5EFD0</color>
     <color name="sign_in_text">#464545</color>
     <color name="sign_in_button">#302E2E</color>
-
+    <color name="add_btn">#EF4C41</color>
 </resources>

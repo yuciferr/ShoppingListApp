@@ -164,6 +164,7 @@ public class SignIn extends AppCompatActivity {
                             dialog.dismiss();
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
+                            finish();
                         } else {
                             // If sign in fails, display a message to the user.
                             dialog.dismiss();
