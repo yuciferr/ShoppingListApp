@@ -12,4 +12,5 @@
     <color name="sign_in_text">#464545</color>
     <color name="sign_in_button">#302E2E</color>
     <color name="add_btn">#EF4C41</color>
+    <color name="grey">#d9d9d9</color>
 </resources>
