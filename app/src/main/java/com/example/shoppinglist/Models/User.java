@@ -1,19 +1,22 @@
-package com.example.shoppinglist;
+package com.example.shoppinglist.Models;
 
-public class Users {
+import java.util.ArrayList;
+
+public class User {
 
     private String name, email, password, picture;
+    private ArrayList<List> lists;
 
-    public Users() {
+    public User() {
     }
 
-    public Users(String name, String email,String picture) {
+    public User(String name, String email, String picture) {
         this.name = name;
         this.email = email;
         this.picture = picture;
     }
 
-    public Users(String name, String email) {
+    public User(String name, String email) {
         this.name = name;
         this.email = email;
     }
@@ -48,5 +51,13 @@ public class Users {
 
     public void setPicture(String picture) {
         this.picture = picture;
+    }
+
+    public ArrayList<List> getLists() {
+        return lists;
+    }
+
+    public void setLists(ArrayList<List> lists) {
+        this.lists = lists;
     }
 }

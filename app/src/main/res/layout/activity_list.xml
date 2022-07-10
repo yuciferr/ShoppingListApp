@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="Title of List"
+        android:text=""
         android:textColor="@color/sign_in_button"
         android:textSize="28sp"
         android:textStyle="bold"
@@ -48,24 +48,27 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/note_bg"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/list_name" />
 
     <EditText
-        android:id="@+id/item_name"
+        android:id="@+id/enter_items"
         android:layout_width="320dp"
         android:layout_height="54dp"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/button"
         android:ems="10"
+        android:hint="Name item"
         android:inputType="textPersonName"
         android:paddingStart="15dp"
         android:paddingEnd="15dp"
-        android:text="Name"
         android:textColor="@color/white"
+        android:textColorHint="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -80,7 +83,18 @@
         app:backgroundTint="@color/sign_in_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/item_name"
+        app:layout_constraintStart_toEndOf="@+id/enter_items"
         app:srcCompat="@drawable/add"
         tools:ignore="SpeakableTextPresentCheck" />
+
+    <ProgressBar
+        android:id="@+id/progressBar2"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

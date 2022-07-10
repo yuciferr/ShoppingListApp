@@ -4,10 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/sign_in_bg">
+    android:background="@color/sign_in_bg"
+    android:layout_marginLeft="4dp"
+    android:layout_marginRight="4dp">
 
     <ImageView
-        android:id="@+id/imageView6"
+        android:id="@+id/priority"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginStart="8dp"
@@ -17,7 +19,7 @@
         app:srcCompat="@drawable/priority_circle" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -27,7 +29,22 @@
         android:textColor="@color/sign_in_button"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/imageView6"
+        app:layout_constraintStart_toEndOf="@+id/priority"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/strike"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:maxWidth="200dp"
+        android:text="Pineapple Juice"
+        android:textColor="@color/sign_in_button"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintStart_toEndOf="@+id/priority"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -42,8 +59,8 @@
         android:textColor="@color/sign_in_button"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView6"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintStart_toEndOf="@+id/priority"
+        app:layout_constraintTop_toBottomOf="@+id/item_name" />
 
     <TextView
         android:id="@+id/item_amount"
@@ -59,7 +76,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/divider"
-        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:layout_constraintTop_toBottomOf="@+id/item_name"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
@@ -72,9 +89,9 @@
         android:textColor="@color/sign_in_button"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/textView5"
+        app:layout_constraintBottom_toBottomOf="@+id/item_name"
         app:layout_constraintStart_toEndOf="@+id/divider"
-        app:layout_constraintTop_toTopOf="@+id/textView5" />
+        app:layout_constraintTop_toTopOf="@+id/item_name" />
 
     <CheckBox
         android:id="@+id/checkBox"
@@ -93,6 +110,6 @@
         android:layout_marginStart="210dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView6"
+        app:layout_constraintStart_toEndOf="@+id/priority"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,10 +6,19 @@
     tools:context=".Fragments.ListsFragment">
 
     <TextView
+        android:id="@+id/txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Lists"
         android:textColor="@color/black"
         android:textSize="40sp"
         android:layout_gravity="center"/>
+
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="150dp"/>
 </FrameLayout>

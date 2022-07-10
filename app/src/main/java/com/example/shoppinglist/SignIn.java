@@ -2,6 +2,7 @@ package com.example.shoppinglist;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.shoppinglist.Models.User;
 import com.example.shoppinglist.databinding.ActivitySignInBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -23,11 +25,14 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class SignIn extends AppCompatActivity {
 
     ActivitySignInBinding binding;
-    private FirebaseAuth mAuth;
+    FirebaseAuth mAuth;
+    FirebaseUser user;
+    FirebaseDatabase database;
     private static final int RC_SIGN_IN = 101;
 
     private GoogleSignInClient gsc;
@@ -45,6 +50,8 @@ public class SignIn extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+        database = FirebaseDatabase.getInstance();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -53,12 +60,12 @@ public class SignIn extends AppCompatActivity {
 
         gsc = GoogleSignIn.getClient(this, gso);
 
-
         binding.google.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog.show();
                 signIn();
+
             }
         });
 
@@ -77,29 +84,29 @@ public class SignIn extends AppCompatActivity {
             }
         });
 
-        if(mAuth.getCurrentUser() != null){
+        if (user != null) {
             startActivity(new Intent(SignIn.this, MainActivity.class));
             finish();
         }
     }
 
-    public void login(){
+    public void login() {
         String email = binding.email.getText().toString().trim();
         String password = binding.password.getText().toString().trim();
 
-        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             binding.email.setError("Please provide valid email");
             binding.email.requestFocus();
             return;
         }
 
-        if(password.isEmpty()){
+        if (password.isEmpty()) {
             binding.password.setError("Password is required");
             binding.password.requestFocus();
             return;
         }
 
-        if(password.length()<6){
+        if (password.length() < 6) {
             binding.password.setError("Password length should be more than 6 characters");
             binding.password.requestFocus();
             return;
@@ -131,7 +138,7 @@ public class SignIn extends AppCompatActivity {
                 });
     }
 
-    private void signIn(){
+    private void signIn() {
         Intent intent = gsc.getSignInIntent();
         startActivityForResult(intent, RC_SIGN_IN);
     }
@@ -140,16 +147,15 @@ public class SignIn extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == RC_SIGN_IN){
+        if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try{
+            try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account.getIdToken());
 
-            }catch(ApiException e){
+            } catch (ApiException e) {
                 dialog.dismiss();
                 Toast.makeText(this, "Failed to sign in", Toast.LENGTH_SHORT).show();
-                finish();
             }
         }
     }
@@ -163,16 +169,13 @@ public class SignIn extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             dialog.dismiss();
-                            FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
-                            finish();
                         } else {
                             // If sign in fails, display a message to the user.
                             dialog.dismiss();
                             Toast.makeText(SignIn.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
 
-                            finish();
 
                         }
                     }
@@ -182,6 +185,24 @@ public class SignIn extends AppCompatActivity {
     }
 
     private void updateUI(FirebaseUser user) {
+        if (FirebaseAuth.getInstance().getCurrentUser() != null){
+            String name=FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+            String email=FirebaseAuth.getInstance().getCurrentUser().getEmail();
+            Uri photoUrl=FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl();
+
+            User userD=new User(name,email,photoUrl.toString());
+
+            FirebaseDatabase.getInstance().getReference("Users")
+                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .setValue(userD).addOnCompleteListener(task1->{
+                        if(task1.isSuccessful()){
+                            Toast.makeText(SignIn.this,"User created",Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(SignIn.this,"User not created",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+
         Intent intent = new Intent(SignIn.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
