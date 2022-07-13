@@ -46,7 +46,7 @@
             android:id="@+id/fragment_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="1dp">
 
         </FrameLayout>
 
@@ -57,9 +57,9 @@
             android:layout_gravity="bottom"
             android:background="@color/sign_in_button"
             android:backgroundTint="@color/sign_in_button"
-            app:fabCradleMargin="13dp"
+            app:fabCradleMargin="6dp"
             app:fabCradleRoundedCornerRadius="20dp"
-            app:fabCradleVerticalOffset="5dp"
+            app:fabCradleVerticalOffset="0dp"
             app:hideOnScroll="true">
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
