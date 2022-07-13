@@ -138,7 +138,7 @@ public class ListActivity extends AppCompatActivity {
             //Remove from firebase
             for (Item i : itemDb) {
                 idItem=i.getItemId();
-                if (items.get(position).getName()==i.getName()) {
+                if (Objects.equals(items.get(position).getName(), i.getName())) {
                     FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth
                                     .getInstance().getCurrentUser().getUid()).child("Lists").child(idList)
                             .child("Items").child(idItem).removeValue();
