@@ -37,7 +37,9 @@ public class CreateList extends AppCompatActivity {
                     binding.nameList.requestFocus();
                 } else {
 
-                    List list = new List(binding.nameList.getText().toString());
+                    String name = binding.nameList.getText().toString().trim();
+                    name = upperLetter(name);
+                    List list = new List(name);
 
                     FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth
                             .getInstance().getCurrentUser().getUid()).child("Lists").push().setValue(list);
@@ -46,5 +48,14 @@ public class CreateList extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public String upperLetter(String name) {
+        String result = "";
+        String[] n1 = name.split(" ");
+        for (String n : n1) {
+            result += n.substring(0, 1).toUpperCase() + n.substring(1) + " ";
+        }
+        return result;
     }
 }

@@ -2,7 +2,7 @@ package com.example.shoppinglist.Models;
 
 public class Cards {
 
-    private String title,content;
+    private String title,content ,id;
 
     public Cards(){
 
@@ -27,5 +27,22 @@ public class Cards {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Cards{" +
+                "title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", id='" + id + '\'' +
+                '}';
     }
 }

@@ -48,29 +48,58 @@ public class ListActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         binding.recyclerView.setLayoutManager(layoutManager);
 
+        idList = getIntent().getStringExtra("id");
+        String name = getIntent().getStringExtra("name");
 
-        FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth
-                .getInstance().getCurrentUser().getUid()).child("Lists").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                lists.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    List list = dataSnapshot.getValue(List.class);
-                    list.setListId(dataSnapshot.getKey());
-                    idList = dataSnapshot.getKey();
-                    lists.add(list);
+        if (!(idList == null)) {
+            binding.progressBar2.setVisibility(View.VISIBLE);
+
+            binding.listName.setText(name);
+
+            FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth
+                            .getInstance().getCurrentUser().getUid()).child("Lists").child(idList)
+                    .child("Items").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            items.clear();
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                Item item = snapshot.getValue(Item.class);
+                                item.setItemId(snapshot.getKey());
+                                items.add(item);
+                            }
+                            adapter.notifyDataSetChanged();
+                            binding.progressBar2.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+        } else {
+            FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth
+                    .getInstance().getCurrentUser().getUid()).child("Lists").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    lists.clear();
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        List list = dataSnapshot.getValue(List.class);
+                        list.setListId(dataSnapshot.getKey());
+                        idList = dataSnapshot.getKey();
+                        lists.add(list);
+                    }
+                    if (lists != null) {
+                        binding.listName.setText(lists.get((lists.size()) - 1).getName());
+                        binding.progressBar2.setVisibility(View.GONE);
+                    }
                 }
-                if (lists != null) {
-                    binding.listName.setText(lists.get(lists.size() - 1).getName());
-                    binding.progressBar2.setVisibility(View.GONE);
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
                 }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+            });
+        }
 
         binding.back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +120,8 @@ public class ListActivity extends AppCompatActivity {
 
     public void save(View view) {
 
-        String data = binding.enterItems.getText().toString();
+        String data = binding.enterItems.getText().toString().trim();
+        data = upperLetter(data);
         items.add(new Item(false, data, Objects.requireNonNull(FirebaseAuth.getInstance()
                 .getCurrentUser()).getDisplayName(), false));
         adapter.notifyDataSetChanged();
@@ -100,28 +130,6 @@ public class ListActivity extends AppCompatActivity {
         FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth
                         .getInstance().getCurrentUser().getUid()).child("Lists").child(idList)
                 .child("Items").push().setValue(items.get(items.size() - 1));
-
-        FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth
-                        .getInstance().getCurrentUser().getUid()).child("Lists").child(idList)
-                .child("Items").addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        itemDb.clear();
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            Item item = dataSnapshot.getValue(Item.class);
-                            assert item != null;
-                            item.setItemId(dataSnapshot.getKey());
-                            itemDb.add(item);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-
-
     }
 
     ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
@@ -134,16 +142,13 @@ public class ListActivity extends AppCompatActivity {
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             int position = viewHolder.getAdapterPosition();
             deletedItem = items.get(position);
+            idItem = items.get(position).getItemId();
 
             //Remove from firebase
-            for (Item i : itemDb) {
-                idItem=i.getItemId();
-                if (Objects.equals(items.get(position).getName(), i.getName())) {
-                    FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth
-                                    .getInstance().getCurrentUser().getUid()).child("Lists").child(idList)
-                            .child("Items").child(idItem).removeValue();
-                }
-            }
+            FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth
+                            .getInstance().getCurrentUser().getUid()).child("Lists").child(idList)
+                    .child("Items").child(idItem).removeValue();
+
 
             //Remove from arraylist
             items.remove(position);
@@ -164,5 +169,14 @@ public class ListActivity extends AppCompatActivity {
             snackbar.show();
         }
     };
+
+    public String upperLetter(String name) {
+        String result = "";
+        String[] n1 = name.split(" ");
+        for (String n : n1) {
+            result += n.substring(0, 1).toUpperCase() + n.substring(1) + " ";
+        }
+        return result;
+    }
 
 }

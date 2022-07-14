@@ -12,7 +12,6 @@
         android:text="Archive"
         android:textColor="@color/black"
         android:textSize="40sp"
-        android:layout_gravity="bottom"
-        android:layout_marginLeft="150dp"/>
+        android:layout_gravity="center" />
 
 </FrameLayout>

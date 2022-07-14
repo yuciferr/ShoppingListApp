@@ -58,8 +58,8 @@ public class ListsFragment extends Fragment {
 
         if(cards.size() == 0) {
             binding.progressBar3.setVisibility(View.VISIBLE);
-            Cards message = new Cards("Welcome Shopping List", "1-Create your shopping list and start adding items\n" +
-                    "2-Add items to your list and share it with your friends\n" +"3-Delete items from your list by swiping left");
+            Cards message = new Cards("Welcome Shopping List", "1-Create your shopping list and start adding items\n\n" +
+                    "2-Add items to your list and share it with your friends\n\n" +"3-Delete items from your list by swiping left");
 
 
             FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth
@@ -80,6 +80,7 @@ public class ListsFragment extends Fragment {
                         for (List list : lists) {
                             Cards card = new Cards();
                             card.setTitle(list.getName());
+                            card.setId(list.getListId());
 
                             FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth
                                             .getInstance().getCurrentUser().getUid()).child("Lists").
