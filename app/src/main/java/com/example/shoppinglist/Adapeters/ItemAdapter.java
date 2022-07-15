@@ -18,18 +18,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shoppinglist.Models.Item;
 import com.example.shoppinglist.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
-    ArrayList<Item> list;
+    ArrayList<Item> items;
     Context context;
     Dialog editItem;
 
-    public ItemAdapter(ArrayList<Item> list, Context context) {
+    public ItemAdapter(ArrayList<Item> items, Context context) {
         this.context = context;
-        this.list = list;
+        this.items = items;
     }
 
 
@@ -43,23 +45,51 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.itemName.setText(list.get(position).getName());
-        holder.personName.setText(list.get(position).getPersonName());
+        int p = position;
+        holder.itemName.setText(items.get(position).getName());
+        holder.personName.setText(items.get(position).getPersonName());
+        holder.amount.setText(items.get(position).getAmount());
+        holder.brand.setText(items.get(position).getBrand());
+
+        if(items.get(position).isBought()){
+            holder.checkBox.setChecked(true);
+            holder.itemName.setTextColor(Color.parseColor("#BCB4B4"));
+            holder.personName.setTextColor(Color.parseColor("#BCB4B4"));
+            holder.brand.setTextColor(Color.parseColor("#BCB4B4"));
+            holder.amount.setTextColor(Color.parseColor("#BCB4B4"));
+        }else{
+            holder.checkBox.setChecked(false);
+            holder.itemName.setTextColor(Color.parseColor("#302E2E"));
+            holder.personName.setTextColor(Color.parseColor("#302E2E"));
+            holder.brand.setTextColor(Color.parseColor("#302E2E"));
+            holder.amount.setTextColor(Color.parseColor("#302E2E"));
+        }
 
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
-                    int len = holder.itemName.getText().toString().trim().length();
-                    String str = "";
-                    for (int i = 0; i < len; i++) {
-                        str += "--";
-                    }
-                    holder.strike.setText(str);
-                    holder.strike.setVisibility(View.VISIBLE);
+                    holder.itemName.setTextColor(Color.parseColor("#BCB4B4"));
+                    holder.personName.setTextColor(Color.parseColor("#BCB4B4"));
+                    holder.brand.setTextColor(Color.parseColor("#BCB4B4"));
+                    holder.amount.setTextColor(Color.parseColor("#BCB4B4"));
+
+                    items.get(p).setBought(true);
+                    FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth
+                            .getInstance().getCurrentUser().getUid()).child("Lists").child(items.get(p).getListId())
+                            .child("Items").child(items.get(p).getItemId()).child("bought").setValue(true);
 
                 } else {
-                    holder.strike.setVisibility(View.INVISIBLE);
+
+                    holder.itemName.setTextColor(Color.parseColor("#302E2E"));
+                    holder.personName.setTextColor(Color.parseColor("#302E2E"));
+                    holder.brand.setTextColor(Color.parseColor("#302E2E"));
+                    holder.amount.setTextColor(Color.parseColor("#302E2E"));
+
+                    items.get(p).setBought(false);
+                    FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth
+                                    .getInstance().getCurrentUser().getUid()).child("Lists").child(items.get(p).getListId())
+                            .child("Items").child(items.get(p).getItemId()).child("bought").setValue(false);
                 }
             }
         });
@@ -70,7 +100,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                 editItem.setContentView(R.layout.edit_item);
                 editItem.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 editItem.getWindow().setGravity(Gravity.BOTTOM);
-
 
 
                 ImageView done = editItem.findViewById(R.id.done2);
@@ -84,8 +113,20 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                 done.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        holder.brand.setText(nBrand.getText().toString());
-                        holder.amount.setText(nAmount.getText().toString());
+                        holder.brand.setText(nBrand.getText().toString().trim());
+                        holder.amount.setText(nAmount.getText().toString().trim());
+
+                        items.get(p).setAmount(nAmount.getText().toString().trim());
+                        items.get(p).setBrand(nBrand.getText().toString().trim());
+
+                        FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth
+                                        .getInstance().getCurrentUser().getUid()).child("Lists").child(items.get(p).getListId())
+                                .child("Items").child(items.get(p).getItemId()).child("amount").setValue(nAmount.getText().toString().trim());
+
+                        FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth
+                                        .getInstance().getCurrentUser().getUid()).child("Lists").child(items.get(p).getListId())
+                                .child("Items").child(items.get(p).getItemId()).child("brand").setValue(nBrand.getText().toString().trim());
+
                         editItem.dismiss();
                     }
                 });
@@ -98,7 +139,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return items.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -119,6 +160,5 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             strike = itemView.findViewById(R.id.strike);
         }
     }
-
 
 }

@@ -27,7 +27,6 @@ public class ListActivity extends AppCompatActivity {
 
     ActivityListBinding binding;
     ArrayList<Item> items = new ArrayList<>();
-    ArrayList<Item> itemDb = new ArrayList<>();
     ArrayList<List> lists = new ArrayList<>();
     ItemAdapter adapter;
     Item deletedItem;
@@ -46,7 +45,9 @@ public class ListActivity extends AppCompatActivity {
         binding.recyclerView.setAdapter(adapter);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.scrollToPosition(items.size() - 1);
         binding.recyclerView.setLayoutManager(layoutManager);
+
 
         idList = getIntent().getStringExtra("id");
         String name = getIntent().getStringExtra("name");
@@ -65,6 +66,7 @@ public class ListActivity extends AppCompatActivity {
                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                 Item item = snapshot.getValue(Item.class);
                                 item.setItemId(snapshot.getKey());
+                                item.setListId(idList);
                                 items.add(item);
                             }
                             adapter.notifyDataSetChanged();

@@ -1,7 +1,7 @@
 package com.example.shoppinglist.Models;
 
 public class Item {
-    private String name, personName,brand, amount, itemId;
+    private String name, personName,brand, amount, itemId, listId;
     private boolean isPriority, bought;
 
     public Item(String name, String personName){
@@ -74,5 +74,13 @@ public class Item {
 
     public void setItemId(String itemId) {
         this.itemId = itemId;
+    }
+
+    public String getListId() {
+        return listId;
+    }
+
+    public void setListId(String listId) {
+        this.listId = listId;
     }
 }

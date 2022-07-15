@@ -57,7 +57,7 @@
         android:maxWidth="200dp"
         android:text="Yusuf Çelik"
         android:textColor="@color/sign_in_button"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/priority"
         app:layout_constraintTop_toBottomOf="@+id/item_name" />
