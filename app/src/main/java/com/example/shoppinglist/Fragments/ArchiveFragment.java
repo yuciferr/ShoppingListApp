@@ -1,66 +1,55 @@
 package com.example.shoppinglist.Fragments;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.shoppinglist.R;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ArchiveFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.example.shoppinglist.Adapeters.ArchiveCardAdapter;
+import com.example.shoppinglist.Models.Cards;
+import com.example.shoppinglist.Models.Item;
+import com.example.shoppinglist.Models.List;
+import com.example.shoppinglist.databinding.FragmentArchiveBinding;
+
+import java.util.ArrayList;
+
 public class ArchiveFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    FragmentArchiveBinding binding;
+    ArrayList<Cards> cards = new ArrayList<>();
+    ArrayList<List> lists = new ArrayList<>();
+    ArrayList<Item> items = new ArrayList<>();
+    ArchiveCardAdapter adapter;
 
     public ArchiveFragment() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ArchiveFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ArchiveFragment newInstance(String param1, String param2) {
-        ArchiveFragment fragment = new ArchiveFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_archive, container, false);
+        binding = FragmentArchiveBinding.inflate(inflater, container, false);
+        adapter = new ArchiveCardAdapter(cards, getContext());
+        binding.recyclerView.setAdapter(adapter);
+
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+        binding.recyclerView.setLayoutManager(staggeredGridLayoutManager);
+
+        Cards card = new Cards();
+        card.setTitle("Archive");
+        card.setPrice("50TL");
+        card.setWho("You");
+        cards.add(card);
+
+        return binding.getRoot();
+    }
+
+    public void onStart() {
+        super.onStart();
+
     }
 }

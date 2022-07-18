@@ -16,15 +16,19 @@ import com.example.shoppinglist.Fragments.ListsFragment;
 import com.example.shoppinglist.databinding.ActivityMainBinding;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
-    FirebaseAuth mAuth;
-    FirebaseUser user;
-    FirebaseDatabase database;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +37,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setFragment(new ListsFragment());
 
-        mAuth = FirebaseAuth.getInstance();
-        user = mAuth.getCurrentUser();
-        database = FirebaseDatabase.getInstance();
 
         binding.bottomNavigationView.setBackground(null);
         binding.bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -58,6 +59,30 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this,CreateList.class));
             }
         });
+
+
+        FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth
+                .getInstance().getCurrentUser().getUid()).child("picture").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                if(snapshot.getValue()!=null){
+                    String url = snapshot.getValue().toString();
+                    try {
+                        Picasso.get().load(String.valueOf(new URL(url))).into(binding.profilePic);
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
 
         binding.profilePic.setOnClickListener(new View.OnClickListener() {
             @Override

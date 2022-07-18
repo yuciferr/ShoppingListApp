@@ -2,7 +2,7 @@ package com.example.shoppinglist.Models;
 
 public class Cards {
 
-    private String title,content ,id;
+    private String title,content ,id ,who ,price;
 
     public Cards(){
 
@@ -37,12 +37,19 @@ public class Cards {
         this.id = id;
     }
 
-    @Override
-    public String toString() {
-        return "Cards{" +
-                "title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", id='" + id + '\'' +
-                '}';
+    public String getWho() {
+        return who;
+    }
+
+    public void setWho(String who) {
+        this.who = who;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
     }
 }

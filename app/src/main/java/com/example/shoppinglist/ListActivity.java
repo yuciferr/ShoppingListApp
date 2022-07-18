@@ -45,7 +45,6 @@ public class ListActivity extends AppCompatActivity {
         binding.recyclerView.setAdapter(adapter);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.scrollToPosition(items.size() - 1);
         binding.recyclerView.setLayoutManager(layoutManager);
 
 
@@ -114,6 +113,13 @@ public class ListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 save(view);
+            }
+        });
+
+        binding.done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
 

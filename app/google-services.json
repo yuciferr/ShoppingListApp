@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "227527874888",
+    "firebase_url": "https://shopping-list-5a6e4-default-rtdb.firebaseio.com",
     "project_id": "shopping-list-5a6e4",
     "storage_bucket": "shopping-list-5a6e4.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "227527874888-s5v04jtl05g098lhkqt6fes318v9fiob.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.shoppinglist",
+            "certificate_hash": "dd8e19a12f89f33afda2c6a071e19ffa149f37a0"
+          }
+        },
         {
           "client_id": "227527874888-onl5ihhpuclb3qlfcdieb86fpchgjio9.apps.googleusercontent.com",
           "client_type": 3
