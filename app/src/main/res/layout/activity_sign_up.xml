@@ -128,7 +128,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="45dp"
-        android:background="@drawable/pp"
+        android:src="@drawable/pp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />

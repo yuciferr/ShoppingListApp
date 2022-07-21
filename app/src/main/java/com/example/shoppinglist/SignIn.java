@@ -194,6 +194,17 @@ public class SignIn extends AppCompatActivity {
             Uri photoUrl=FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl();
 
             User userD=new User(name,email,photoUrl.toString());
+            FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(!dataSnapshot.exists()){
+                        FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(userD);
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            });
             final boolean[] isExist = {false};
 
             FirebaseDatabase.getInstance().getReference("Users").addValueEventListener(new ValueEventListener() {
